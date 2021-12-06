@@ -4,16 +4,38 @@ import {Wrapper} from './styles/Design'
 
 function App() {
 
-  
-let x1,x2;
-  //const [values,showvalues] = useState()
+  let x1,x2;
   const [yourName,setYourName] = useState("")
   const [hisherName,sethisherName] = useState("")
 
-  
-  // console.log(yourName)
-  // console.log(hisherName)
-
+  const flames = () =>
+  {
+    const result = ['Friend','Lover','Affectionate','Marriage','Enemy','Sibling']
+    //console.log(result)
+    if(yourName === "" || hisherName === "")
+    {
+      document.querySelector(".resultdiv").innerHTML = "Enter both names!....";
+    }
+    
+    else if(yourName !== "" || hisherName !== "")
+    {
+    //console.log(splitnames);
+    const splitnames = splitArray(yourName,hisherName) 
+    const yourRemainder = getRemainder(splitnames[1],x1)
+    const hisherRemainder = getRemainder(splitnames[0],x2)
+    // console.log(yourRemainder)
+    // console.log(hisherRemainder)
+    const setCount = getCount(yourRemainder[1],hisherRemainder[1])
+    console.log(setCount)
+    const setResult = getResult(result,setCount)
+    document.querySelector(".resultdiv").innerHTML = `Relationship between ${yourName} and ${hisherName} is ${setResult}`;
+    
+    
+    
+    }
+    
+    
+  }
   
   const splitArray = (yourName,hisherName) => {
     if(yourName === "" || hisherName === "")
@@ -25,7 +47,7 @@ let x1,x2;
       
       x1 = yourName.split('.').join("").replace(/ /g,'')
       console.log(x1)
-      x2 = hisherName.split('.').join("").replace(/ /g,'')
+      x2 = hisherName.split('.').join("").replace(/ /g,'') 
       console.log(x2);
       const yourNameSplit = x1.split("")
       const hisherNameSplit = x2.split("")
@@ -36,8 +58,9 @@ let x1,x2;
   }
 
     const getRemainder = (splitname,name) =>{
-
+      // eslint-disable-next-line
       splitname.map(item =>{
+        
         const regex = new RegExp(`${item}`,"i")
         
         name = name.replace(regex,"")
@@ -71,60 +94,33 @@ let x1,x2;
         resultPart = result.splice((setCount-1)%i,)
         result = [...resultPart,...result]
         console.log(result)
-        
-        
       }
-      
     }
+    
   
     
     return [result]
     }
 
 
-
-    
-  
-  const flames = () =>
-  {
-    const result = ['Friend','Lover','Affectionate','Marriage','Enemy','Sibling']
-    //console.log(result)
-    
-    if(yourName === "" || hisherName === ""){
-      document.querySelector(".resultdiv").innerHTML = "Enter both names!....";
-    }
-    
-    else if(yourName !== "" || hisherName !== "")
-    {
-    //console.log(splitnames);
-    const splitnames = splitArray(yourName,hisherName) 
-
-    const yourRemainder = getRemainder(splitnames[1],x1)
-    const hisherRemainder = getRemainder(splitnames[0],x2)
-    // console.log(yourRemainder)
-    // console.log(hisherRemainder)
-    const setCount = getCount(yourRemainder[1],hisherRemainder[1])
-    const setResult = getResult(result,setCount)
-    document.querySelector(".resultdiv").innerHTML = `${setResult}`;
-    }
-    
-    //console.log(setResult)
-        // console.log(setResult)
-
-    //console.log(splitnames[1]);
-    
-  }
-
   return (
     <Wrapper>
-      <h1>♥ FLAMES ♥</h1>
-        <label className = "yourNameLabel">Enter your name:</label>
+      <h1 className = "heading">♥ FLAMES ♥</h1>
+      <div className ="inputs">
+      <label className = "yourNameLabel">Enter your name:</label>
         <input className = "yourname" onChange ={event => setYourName(event.target.value)} required/>
+      </div>
 
-        <label className = "hisherLabel">Enter his/her Name</label>
+      <div className ="inputs2">
+        <label className = "hisherLabel">Enter his/her Name:</label>
         <input className = "hishername" onChange = {event => sethisherName(event.target.value) } required/>
+      </div>
+        
+        <div className = "buttons">
         <button className = "calculate" onClick = {()=>{flames()}}>Calculate</button>
         <button className = "reset" onClick = {()=>{window.location.reload()}}>Reset</button>   
+        </div>
+        
         <div className ="resultdiv"></div>
       </Wrapper>
   )
